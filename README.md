@@ -16,13 +16,13 @@ Depending on the IdentityServer used, the JWT has an **acces_token** and an **id
 
 ## Example
 
-Asumming a Create-React app.
+Assuming a Create-React app.
 
 In you app.js file
 
 ```js
 import React, { Component } from 'react';
-import ReactOidcComponent from 'react-OpenIdConnect';
+import Authenticate from 'react-OpenIdConnect';
 import OidcSettings from './oidcsettings';
 
 class App extends Component {

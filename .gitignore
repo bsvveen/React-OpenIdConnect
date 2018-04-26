@@ -6,8 +6,8 @@
 # testing
 /coverage
 
-# production
-/build
+# ide
+/.vscode
 
 # misc
 .DS_Store
