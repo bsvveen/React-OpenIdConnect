@@ -16,25 +16,25 @@ Depending on the IdentityServer used, the JWT has an **acces_token** and an **id
 
 ## Example
 
-Assuming a Create-React app.
+_Assuming a Create-React app._
 
-In you app.js file
+1 - Change your app.js file to
 
 ```js
 import React, { Component } from 'react';
-import Authenticate from 'react-OpenIdConnect';
+import Authenticate from 'react-openidconnect';
 import OidcSettings from './oidcsettings';
-
+ 
 class App extends Component {
-
+ 
   constructor(props) {
     super(props);
     this.userLoaded = this.userLoaded.bind(this); 
     this.userUnLoaded = this.userUnLoaded.bind(this);
-
+ 
     this.state = { user: undefined };
   }  
-
+ 
   userLoaded(user) {
     if (user)
       this.setState({ "user": user });
@@ -43,11 +43,11 @@ class App extends Component {
   userUnLoaded() {
     this.setState({ "user": undefined });
   } 
-
+ 
   NotAuthenticated() {
     return <div>You are not authenticated, please click here to authenticate.</div>;
   }
-
+ 
   render() {
       return (
         <Authenticate OidcSettings={OidcSettings} userLoaded={this.userLoaded} userunLoaded={this.userUnLoaded} renderNotAuthenticated={this.NotAuthenticated}>
@@ -56,7 +56,11 @@ class App extends Component {
       )
   }
 }
+
+export default App;
 ```
+
+2 - Create a oidcsettings.js file in the same map as you app.js and provide the Oidc settings. You should retrieve these settings from you identity provider. Getting these settings right is normally the most frustrating part.
 
 ### OidcSettings provides the following properties.
 
@@ -64,26 +68,30 @@ class App extends Component {
 - **client_id**	(string): Your client application’s identifier as registered with the OIDC/OAuth2 provider.
 - **redirect_uri** (string): The redirect URI of your client application to receive a response from the OIDC/OAuth2 provider.
 - **scope**	(string): The scope being requested from the OIDC/OAuth2 provider (default: ‘openid’).
+- **response_type**: 'id_token token'.
+- **post_logout_redirect_uri**: (string): The redirect URI of your client after logout.  
 
 #### Example:
 
-Create a oidcsettings.js file in the same map as you app.js and provide your Oidc settings.
-
 ```js
-var OidcSettings = {
-  client_id: '581912277515-8pqeloei552og7pa13iufb57iug8vu9k.apps.googleusercontent.com',
-  redirect_uri: `https://localhost:9090/`, 
-  scope: 'openid profile https://www.googleapis.com/auth/youtube.readonly',
-  authority: 'https://accounts.google.com'  
+var OidcSettings = {    
+    authority: 'https://****/identity',
+    client_id: 'myclientid',
+    redirect_uri: 'https://localhost:9090/',    
+    response_type: 'id_token token',
+    scope: 'openid profile roles',
+    post_logout_redirect_uri: 'https://localhost:9090/'      
 };
-
-export default OidcSettings;
 ```
 
-You need to start your React app using the same url as in redirect_uri. The way to do this is to change the start script inside your package.json to.
+3 - You need to start your React app using the same url as in redirect_uri. The way to do this is to change the start script inside your package.json to.
 
 ```js
-"start": "set PORT=9090&&set HTTPS=true&&react-scripts start",
+windows
+"start": "set PORT=9090&&set HTTPS=true&&react-scripts start" 
+
+other
+"start": "set PORT=9090 set HTTPS=true react-scripts start" (other)
 ```
 
 **NOTE**: when authenticating against an identity provider, a redirect is used to provide the required token via the querystring. The ```<Authenticate>``` needs to pick-up this token so be sure the component is rendered when the redirect-url is called.

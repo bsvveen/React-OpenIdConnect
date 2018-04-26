@@ -1,6 +1,6 @@
 {
   "name": "react-openidconnect",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "homepage": "https://github.com/bsvveen/React-OpenIdConnect",
   "scripts": {
     "build": "webpack --config webpack.config.babel.js",
