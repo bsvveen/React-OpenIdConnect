@@ -40,13 +40,17 @@ class Authenticate extends Component {
     }
 
     onUserLoaded(user) {
-        this.setState({ isAuthenticated: true });       
-        this.props.userLoaded(user);
+        this.setState({ isAuthenticated: true });     
+        
+        if (this.props.userLoaded !== undefined)
+            this.props.userLoaded(user);
     }
 
     onUserUnloaded() {
         this.setState({ isAuthenticated: false });
-        this.props.userUnLoaded();
+
+        if (this.props.userUnLoaded !== undefined)
+            this.props.userUnLoaded();
     }   
 
     signin() {
