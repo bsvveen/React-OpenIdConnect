@@ -4,7 +4,7 @@
 
 ##### NPM
 
-`npm install --save React-OpenIdConnect`
+`npm install --save react-openidconnect`
 
 ## Usage
 
