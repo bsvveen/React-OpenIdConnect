@@ -4,7 +4,7 @@
 
 ##### NPM
 
-`npm install --save React-OpenIdConnect`
+`npm install --save react-openidconnect`
 
 ## Usage
 
@@ -12,7 +12,7 @@ Import the component and add ```<Authenticate>``` to you react app. All its chil
 
 The JWT is provided trough the callback **'userLoaded'** and is called at them moment the user is retrieved from the identityserver. **'userUnLoaded'** is called when the user is removed from session. Its up to you to decided what to do with the JWT.
 
-Depending on the IdentityServer used, the JWT has an **acces_token** and an **id_token** which can be used to add to your Fecth request headers as bearer token. Theis will grantyou access to the resource server.
+Depending on the IdentityServer used, the JWT has an **acces_token** and an **id_token** which can be used to add to your Fecth request headers as bearer token. This will grant you access to the resource server.
 
 ## Example
 
