@@ -29,7 +29,7 @@ class Authenticate extends Component {
         this.userManager.getUser().then((user) => {
             if (user !== null && user !== undefined) {                
                 this.onUserLoaded(user);
-            } else if (window.location.href.includes("#id_token")) {
+            } else if (window.location.href.includes("id_token=")) {
                 this.userManager.signinRedirectCallback().then(() => {                   
                     window.history.replaceState({}, "", "/");
                 }).catch(function (err) {
