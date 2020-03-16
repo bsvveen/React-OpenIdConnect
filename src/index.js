@@ -20,7 +20,7 @@ class Authenticate extends Component {
         this.state = { isAuthenticated: false };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
 
         this.userManager = new UserManager(this.props.OidcSettings);
         this.userManager.events.addUserLoaded(this.onUserLoaded);
@@ -29,7 +29,7 @@ class Authenticate extends Component {
         this.userManager.getUser().then((user) => {
             if (user !== null && user !== undefined) {                
                 this.onUserLoaded(user);
-            } else if (window.location.href.includes("#id_token")) {
+            } else if (this.isSuccessfullyAuthenticated()) {
                 this.userManager.signinRedirectCallback().then(() => {                   
                     window.history.replaceState({}, "", "/");
                 }).catch(function (err) {
@@ -37,6 +37,14 @@ class Authenticate extends Component {
                 });
             }
         })
+    }
+
+    isSuccessfullyAuthenticated() {
+        if (this.props.checkAuthentication !== undefined) {
+            return this.props.checkAuthentication();
+        }
+
+        return window.location.href.includes("#id_token");
     }
 
     onUserLoaded(user) {
@@ -73,7 +81,8 @@ Authenticate.defaultProps = {
     OidcSettings: {},
     userUnLoaded: null,
     userLoaded: null,
-    renderNotAuthenticated: null 
+    renderNotAuthenticated: null,
+    checkAuthentication: null,
 };
 
 Authenticate.propTypes = {
