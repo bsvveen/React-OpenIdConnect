@@ -16,7 +16,6 @@ class Authenticate extends Component {
         super(props);
         this.signin = this.signin.bind(this);        
         this.onUserLoaded = this.onUserLoaded.bind(this);
-
         this.state = { isAuthenticated: false };
     }
 
@@ -123,7 +122,11 @@ Authenticate.propTypes = {
     /**
     * @property {func} renderNotAuthenticated Renderprop used to render output when user is not authenticated
     */
-    renderNotAuthenticated: propTypes.func.isRequired
+    renderNotAuthenticated: propTypes.func.isRequired,
+    /**
+     * @property {func} checkAuthentication Overwrite the authentication check method
+     */
+    checkAuthentication: propTypes.func,
 };
 
 export default Authenticate;
