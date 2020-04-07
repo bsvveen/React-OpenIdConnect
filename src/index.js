@@ -132,6 +132,13 @@ Authenticate.propTypes = {
      * @property {func} checkAuthentication Overwrite the authentication check method
      */
     checkAuthentication: propTypes.func,
+    /**
+     * @property {node} children If present overwrite the isAuthenticated renderer 
+     */
+    children: propTypes.oneOfType([
+        propTypes.arrayOf(propTypes.node),
+        propTypes.node
+    ]).isRequired
 };
 
 export default Authenticate;
