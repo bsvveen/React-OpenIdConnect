@@ -74,9 +74,9 @@ class Authenticate extends Component {
         }
 
         return (
-          <div>
-            {this.props.renderNotAuthenticated({onSignIn: this.signin})}
-          </div>
+            <div>
+                {this.props.renderNotAuthenticated({ onSignIn: this.signin })}
+            </div>
         );
     }
 }
