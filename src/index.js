@@ -20,7 +20,6 @@ class Authenticate extends Component {
     }
 
     UNSAFE_componentWillMount() {
-
         this.userManager = new UserManager(this.props.OidcSettings);
         this.userManager.events.addUserLoaded(this.onUserLoaded);
         this.userManager.events.addUserUnloaded(this.onUserUnloaded);
@@ -29,6 +28,7 @@ class Authenticate extends Component {
             if (user !== null && user !== undefined) {
                 this.onUserLoaded(user);
             } else if (this.isSuccessfullyAuthenticated()) {
+                this.setState({ isLoading: true });
                 this.userManager.signinRedirectCallback().then(() => {
                     window.history.replaceState({}, "", "/");
                 }).catch(function (err) {
@@ -61,7 +61,6 @@ class Authenticate extends Component {
     }
 
     signin() {
-        this.setState({ isLoading: true });
         this.userManager.signinRedirect().then(function () {
             console.log('signinRedirect ok');
 
@@ -73,16 +72,13 @@ class Authenticate extends Component {
     render() {
         if (this.state.isAuthenticated) {
             return (this.props.children);
-        }
-
-        if (this.state.isLoading) {
+        } else if (this.state.isLoading) {
             return (
                 <div>
                     {this.props.renderLoading()}
                 </div>
             )
         }
-
         return (
             <div>
                 {this.props.renderNotAuthenticated({ onSignIn: this.signin })}
