@@ -16,7 +16,7 @@ class Authenticate extends Component {
         super(props);
         this.signin = this.signin.bind(this);
         this.onUserLoaded = this.onUserLoaded.bind(this);
-        this.state = { isAuthenticated: false };
+        this.state = { isAuthenticated: false, isLoading: false };
     }
 
     UNSAFE_componentWillMount() {
@@ -61,8 +61,10 @@ class Authenticate extends Component {
     }
 
     signin() {
+        this.setState({ isLoading: true });
         this.userManager.signinRedirect().then(function () {
             console.log('signinRedirect ok');
+
         }).catch(function (err) {
             console.log('signinRedirect error:', err);
         });
@@ -71,6 +73,14 @@ class Authenticate extends Component {
     render() {
         if (this.state.isAuthenticated) {
             return (this.props.children);
+        }
+
+        if (this.state.isLoading) {
+            return (
+                <div>
+                    {this.props.renderLoading()}
+                </div>
+            )
         }
 
         return (
@@ -85,6 +95,7 @@ Authenticate.defaultProps = {
     OidcSettings: {},
     userUnLoaded: null,
     userLoaded: null,
+    renderLoading: null,
     renderNotAuthenticated: null,
     checkAuthentication: null,
 };
@@ -124,6 +135,10 @@ Authenticate.propTypes = {
     * @property {func} userUnLoaded Raised when a user session has been terminated.
     */
     userUnLoaded: propTypes.func,
+    /**
+     * @property {func} renderLoading Renderprop used to render output when user's authentication is being processed 
+     */
+    renderLoading: propTypes.func.isRequired,
     /**
     * @property {func} renderNotAuthenticated Renderprop used to render output when user is not authenticated
     */
