@@ -30,7 +30,7 @@ class Authenticate extends Component {
             } else if (this.isSuccessfullyAuthenticated()) {
                 this.setState({ isLoading: true });
                 this.userManager.signinRedirectCallback().then(() => {
-                    window.history.replaceState({}, "", "/");
+                    window.history.replaceState({}, "", this.props.intendedPath || "/");
                 }).catch(function (err) {
                     console.log("Error signinRedirectCallback: ", err);
                 });
@@ -92,6 +92,7 @@ Authenticate.defaultProps = {
     userUnLoaded: null,
     userLoaded: null,
     renderLoading: null,
+    intendedPath: null,
     renderNotAuthenticated: null,
     checkAuthentication: null,
 };
@@ -135,6 +136,10 @@ Authenticate.propTypes = {
      * @property {func} renderLoading Renderprop used to render output when user's authentication is being processed 
      */
     renderLoading: propTypes.func.isRequired,
+    /**
+    * @property {string} intendedPath Path, which user initially intended to open
+    */
+    intendedPath: propTypes.string,
     /**
     * @property {func} renderNotAuthenticated Renderprop used to render output when user is not authenticated
     */
