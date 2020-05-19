@@ -44,6 +44,10 @@ class App extends Component {
     this.setState({ "user": undefined });
   } 
  
+ LoadingMenu() {
+    return <div>Loading...</div>;
+ }
+ 
   NotAuthenticated() {
     return <div>You are not authenticated, please click here to authenticate.</div>;
   }
@@ -60,6 +64,7 @@ class App extends Component {
           checkAuthentication={checkAuthentication}
           userLoaded={this.userLoaded} 
           userunLoaded={this.userUnLoaded} 
+          renderLoading={this.LoadingMenu}
           renderNotAuthenticated={this.NotAuthenticated}
         >
             <div>If you see this you are authenticated.</div>
