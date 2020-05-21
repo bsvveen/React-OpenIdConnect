@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import { UserManager } from 'oidc-client';
+import { UserManager, Log } from 'oidc-client';
 
 /**
  * @render react
@@ -14,6 +14,10 @@ import { UserManager } from 'oidc-client';
 class Authenticate extends Component {
     constructor(props) {
         super(props);
+
+        Log.logger = console;
+        Log.level = Log.DEBUG; 
+
         this.signin = this.signin.bind(this);
         this.onUserLoaded = this.onUserLoaded.bind(this);
         this.state = { isAuthenticated: false, isLoading: false };
@@ -23,6 +27,7 @@ class Authenticate extends Component {
         this.userManager = new UserManager(this.props.OidcSettings);
         this.userManager.events.addUserLoaded(this.onUserLoaded);
         this.userManager.events.addUserUnloaded(this.onUserUnloaded);
+        this.userManager.events.addAccessTokenExpired(this.onAccessTokenExpired);
 
         this.userManager.getUser().then((user) => {
             if (user !== null && user !== undefined) {
@@ -35,7 +40,7 @@ class Authenticate extends Component {
                     console.log("Error signinRedirectCallback: ", err);
                 });
             }
-        })
+        });
     }
 
     isSuccessfullyAuthenticated() {
@@ -58,6 +63,11 @@ class Authenticate extends Component {
 
         if (this.props.userUnLoaded !== undefined)
             this.props.userUnLoaded();
+    }
+
+    onAccessTokenExpired() {
+      const bc = new BroadcastChannel('auth');
+      bc.postMessage('accessTokenExpired');
     }
 
     signin() {
