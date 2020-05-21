@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import { UserManager, Log } from 'oidc-client';
+import { UserManager } from 'oidc-client';
 
 /**
  * @render react
