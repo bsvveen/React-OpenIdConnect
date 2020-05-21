@@ -14,10 +14,6 @@ import { UserManager, Log } from 'oidc-client';
 class Authenticate extends Component {
     constructor(props) {
         super(props);
-
-        Log.logger = console;
-        Log.level = Log.DEBUG; 
-
         this.signin = this.signin.bind(this);
         this.onUserLoaded = this.onUserLoaded.bind(this);
         this.state = { isAuthenticated: false, isLoading: false };
